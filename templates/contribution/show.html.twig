@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contribution{% endblock %}
+
+{% block body %}
+    <h1>Contribution</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ contribution.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ contribution.title }}</td>
+            </tr>
+            <tr>
+                <th>Style</th>
+                <td>{{ contribution.style }}</td>
+            </tr>
+            <tr>
+                <th>Type_contribution</th>
+                <td>{{ contribution.typeContribution }}</td>
+            </tr>
+            <tr>
+                <th>Upload</th>
+                <td>{{ contribution.upload }}</td>
+            </tr>
+            <tr>
+                <th>External_url</th>
+                <td>{{ contribution.externalUrl }}</td>
+            </tr>
+            <tr>
+                <th>Image_url</th>
+                <td>{{ contribution.imageUrl }}</td>
+            </tr>
+            <tr>
+                <th>Bpm</th>
+                <td>{{ contribution.bpm }}</td>
+            </tr>
+            <tr>
+                <th>Format</th>
+                <td>{{ contribution.format }}</td>
+            </tr>
+            <tr>
+                <th>Key_contrib</th>
+                <td>{{ contribution.keyContrib }}</td>
+            </tr>
+            <tr>
+                <th>Duration</th>
+                <td>{{ contribution.duration }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ contribution.description }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ contribution.createdAt ? contribution.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsApproved</th>
+                <td>{{ contribution.isApproved ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_contribution_index') }}">back to list</a>
+
+    <a href="{{ path('app_contribution_edit', {'id': contribution.id}) }}">edit</a>
+
+    {{ include('contribution/_delete_form.html.twig') }}
+{% endblock %}
