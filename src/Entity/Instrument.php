@@ -75,9 +75,16 @@ class Instrument
     #[ORM\OneToMany(targetEntity: Contribution::class, mappedBy: 'instrument')]
     private Collection $contributions;
 
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'instrument')]
+    private Collection $comments;
+
     public function __construct()
     {
         $this->contributions = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -313,6 +320,36 @@ class Instrument
             // set the owning side to null (unless already changed)
             if ($contribution->getInstrument() === $this) {
                 $contribution->setInstrument(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setInstrument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getInstrument() === $this) {
+                $comment->setInstrument(null);
             }
         }
 
