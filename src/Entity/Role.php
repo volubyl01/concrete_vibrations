@@ -48,10 +48,9 @@ class Role
         return $this->name_role;
     }
 
-    public function setNameRole(string $name_role): static
+    public function setNameRole(string $name_role): self
     {
         $this->name_role = $name_role;
-
         return $this;
     }
 

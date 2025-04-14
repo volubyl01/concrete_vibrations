@@ -2,16 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UserRepository;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Broadcast]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -65,11 +67,26 @@ class User
 
     public function __construct()
     {
+        $this->createdAt = new \DateTimeImmutable();
         $this->instrument = new ArrayCollection();
         $this->contributions = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->roles = new ArrayCollection();
     }
+
+    // nécessaire pour UserInterface
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    // nécessaire pour userinterface
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
+
 
     public function getId(): ?int
     {
@@ -153,7 +170,7 @@ class User
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
@@ -251,9 +268,21 @@ class User
     }
 
     /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        // Ajoute ROLE_USER par défaut si aucun rôle n'est défini
+        $roles = $this->roles;
+        $roles = 'ROLE_USER';
+
+        return $this -> roles->map(fn(Role $role) => $role->getNameRole())->toArray();
+    }
+
+    /**
      * @return Collection<int, Role>
      */
-    public function getRoles(): Collection
+    public function getRolesCollection(): Collection
     {
         return $this->roles;
     }
