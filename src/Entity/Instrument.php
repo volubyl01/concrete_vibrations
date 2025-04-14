@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\InstrumentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
@@ -66,6 +68,17 @@ class Instrument
 
     #[ORM\ManyToOne(inversedBy: 'instrument')]
     private ?User $user = null;
+
+    /**
+     * @var Collection<int, Contribution>
+     */
+    #[ORM\OneToMany(targetEntity: Contribution::class, mappedBy: 'instrument')]
+    private Collection $contributions;
+
+    public function __construct()
+    {
+        $this->contributions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -272,6 +285,36 @@ class Instrument
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contribution>
+     */
+    public function getContributions(): Collection
+    {
+        return $this->contributions;
+    }
+
+    public function addContribution(Contribution $contribution): static
+    {
+        if (!$this->contributions->contains($contribution)) {
+            $this->contributions->add($contribution);
+            $contribution->setInstrument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContribution(Contribution $contribution): static
+    {
+        if ($this->contributions->removeElement($contribution)) {
+            // set the owning side to null (unless already changed)
+            if ($contribution->getInstrument() === $this) {
+                $contribution->setInstrument(null);
+            }
+        }
 
         return $this;
     }

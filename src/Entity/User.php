@@ -45,9 +45,16 @@ class User
     #[ORM\OneToMany(targetEntity: Instrument::class, mappedBy: 'user')]
     private Collection $instrument;
 
+    /**
+     * @var Collection<int, Contribution>
+     */
+    #[ORM\OneToMany(targetEntity: Contribution::class, mappedBy: 'user')]
+    private Collection $contributions;
+
     public function __construct()
     {
         $this->instrument = new ArrayCollection();
+        $this->contributions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -163,6 +170,36 @@ class User
             // set the owning side to null (unless already changed)
             if ($instrument->getUser() === $this) {
                 $instrument->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contribution>
+     */
+    public function getContributions(): Collection
+    {
+        return $this->contributions;
+    }
+
+    public function addContribution(Contribution $contribution): static
+    {
+        if (!$this->contributions->contains($contribution)) {
+            $this->contributions->add($contribution);
+            $contribution->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContribution(Contribution $contribution): static
+    {
+        if ($this->contributions->removeElement($contribution)) {
+            // set the owning side to null (unless already changed)
+            if ($contribution->getUser() === $this) {
+                $contribution->setUser(null);
             }
         }
 
