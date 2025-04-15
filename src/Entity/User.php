@@ -10,6 +10,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+// pour valider les commentaire
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Broadcast]
@@ -21,6 +23,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 150)]
+    // on valide le format de l'email coté serveur :
+     #[Assert\NotBlank(message:"L'email est obligatoire.")]
+     #[Assert\Email(message:"L'email '{{ value }}' n'est pas un email valide.")]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -120,9 +125,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserName(): ?string
     {
-        return $this->user_name;
+        // on appelle la méthodde getuseridentifier pour récupérer l'email
+        return $this->getUserIdentifier();
     }
 
+ 
     public function setUserName(?string $user_name): static
     {
         $this->user_name = $user_name;
