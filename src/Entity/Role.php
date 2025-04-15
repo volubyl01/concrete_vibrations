@@ -17,15 +17,16 @@ class Role
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $name_role = null;
+    #[ORM\Column(name:'name_role', type: 'string', length: 50)]
+    private ?string $nameRole = null;
 
     /**
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'roles')]
     #[ORM\JoinTable(name: 'role_user')]
-    private Collection $user;
+    // un role peut être attribué à plusieurs utilisateurs : $users
+    private Collection $users;
 
     /**
      * @var Collection<int, Permission>
@@ -36,7 +37,7 @@ class Role
 
     public function __construct()
     {
-        $this->user = new ArrayCollection();
+        $this->users = new ArrayCollection();
         $this->permissions = new ArrayCollection();
     }
 
@@ -47,35 +48,34 @@ class Role
 
     public function getNameRole(): ?string
     {
-        return $this->name_role;
+        return $this->nameRole;
     }
 
-    public function setNameRole(string $name_role): self
+    public function setNameRole(string $nameRole): self
     {
-        $this->name_role = $name_role;
+        $this->nameRole = $nameRole;
         return $this;
     }
 
     /**
      * @return Collection<int, User>
      */
-    public function getUser(): Collection
+    public function getUsers(): Collection
     {
-        return $this->user;
+        return $this->users;
     }
 
     public function addUser(User $user): static
     {
-        if (!$this->user->contains($user)) {
-            $this->user->add($user);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
         }
-
         return $this;
     }
 
     public function removeUser(User $user): static
     {
-        $this->user->removeElement($user);
+        $this->users->removeElement($user);
 
         return $this;
     }
