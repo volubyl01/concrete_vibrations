@@ -4,17 +4,21 @@ namespace App\Form;
 
 use App\Entity\Role;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('email')
+        ->add('email', EmailType::class, [
+            'label' => 'Email',
+            'required' => true,
+        ])
             ->add('password')
             ->add('user_name')
             ->add('user_instr')

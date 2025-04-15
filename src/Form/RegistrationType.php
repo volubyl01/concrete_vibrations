@@ -34,18 +34,21 @@ class RegistrationType extends AbstractType
                 'widget' => 'single_text',
                 'attr' => ['readonly' => true], // Rend le champ non modifiable
             ])
-            ->add('roles', EntityType::class, [
-                'class' => Role::class,
-                
-                'choice_label' => 'nameRole',
-                // le champ accepte plusieurs choix
-                'multiple' => true,
-                // génére des cases à cocher plutôt qu'une liste déroulante
-                'expanded' => true,
-                // by_reference => false permet d'utiliser les méthode addrole et remove role plutôt que de remplacer toute la collection
-                'by_reference' => false,
-                'property_path' => 'rolesCollection' // utilise getrolescollection() et setrolescollection pour gérer la collection de roles
-            ])
+       
+
+            // Cen'est plus nécessaire car on attibue le role_user par defaut dans le controller
+            // ->add('roles', EntityType::class, [
+            //     'class' => Role::class,
+
+            //     'choice_label' => 'nameRole',
+            //     // le champ accepte plusieurs choix
+            //     'multiple' => true,
+            //     // génére des cases à cocher plutôt qu'une liste déroulante
+            //     'expanded' => true,
+            //     // by_reference => false permet d'utiliser les méthode addrole et remove role plutôt que de remplacer toute la collection
+            //     'by_reference' => false,
+            //     'property_path' => 'rolesCollection' // utilise getrolescollection() et setrolescollection pour gérer la collection de roles
+            // ])
         ;
     }
 
