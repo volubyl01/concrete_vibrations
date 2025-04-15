@@ -22,6 +22,7 @@ class Permission
      * @var Collection<int, Role>
      */
     #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'permissions')]
+    #[ORM\JoinTable(name: 'permission_role')]
     private Collection $role;
 
     public function __construct()

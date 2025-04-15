@@ -24,12 +24,14 @@ class Role
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'roles')]
+    #[ORM\JoinTable(name: 'role_user')]
     private Collection $user;
 
     /**
      * @var Collection<int, Permission>
      */
     #[ORM\ManyToMany(targetEntity: Permission::class, mappedBy: 'role')]
+    
     private Collection $permissions;
 
     public function __construct()
