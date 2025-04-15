@@ -24,13 +24,13 @@ security:
                 enable_csrf: true
                 csrf_parameter: _csrf_token
                 csrf_token_id: authenticate
-                default_target_path: app_home
+                default_target_path: app_home_connected
 
 
 
             logout:
                 path: app_logout
-                target: app_login
+                target: app_home
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
