@@ -29,23 +29,21 @@ final class RegistrationController extends AbstractController
         // Création du formulaire d'inscription
         $form = $this->createForm(RegistrationType::class, $user);
         $form->handleRequest($request);
+        // debug 
+        // dd($form->getErrors(true, false)); 
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Debug pour vérifier les données de l'utilisateur
+            //   dd('Le formulaire est soumis et valide !');
+           
             // Gestion des rôles sélectionnés
             $selectedRoles = $form->get('roles')->getData(); // Récupération des rôles depuis le formulaire
+            // debug
+            // dump($user, $user->getRoles()); 
 
             if (!empty($selectedRoles)) {
-                foreach ($selectedRoles as $roleName) {
-                    // Recherche du rôle dans la base de données
-                    $role = $entityManager->getRepository(Role::class)->findOneBy(['name' => $roleName]);
-
-                    if ($role) {
-                        // Ajout du rôle à l'utilisateur voir addrole dans user
-                        $user->addRole($role);
-                    } else {
-                        // Gestion des rôles non trouvés (optionnel)
-                        throw new \Exception(sprintf('Le rôle "%s" n\'existe pas.', $roleName));
-                    }
+                foreach ($selectedRoles as $role) {
+                    $user->addRole($role);
                 }
             }
 
@@ -64,17 +62,23 @@ final class RegistrationController extends AbstractController
             }
 
 
-            // Persister l'utilisateur
-            try {
-                $entityManager->persist($user);
-                // Synchronisation des données persistées avec la base de données
-                $entityManager->flush();
-            } catch (\Exception $e) {
-                return new Response(sprintf('Une erreur est survenue lors de l\'enregistrement : %s', $e->getMessage()));
-            }
+            // // Persister l'utilisateur
+            // try {
+            //     $entityManager->persist($user);
+            //     // Synchronisation des données persistées avec la base de données
+            //     $entityManager->flush();
+            //     dd('Utilisateur enregistré !');
+            // } catch (\Exception $e) {
+            //     return new Response(sprintf('Une erreur est survenue lors de l\'enregistrement : %s', $e->getMessage()));
+            // }
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+            // debug
+            // dd('Utilisateur enregistré !');
 
             // Redirection vers la page de connexion après succès
-            return $security->login($user, 'form_login','main');
+            return $security->login($user, 'form_login', 'main');
         }
 
         // Affichage du formulaire d'inscription dans le template Twig

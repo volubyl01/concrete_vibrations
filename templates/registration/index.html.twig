@@ -1,64 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RegistrationController!{% endblock %}
+{% block title %}Hello RegistrationController!
+{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
 
-{{ form_start(form) }}
+	{{ form_start(form) }}
 
-<div>
-    {{ form_label(form.email) }}
-    {{ form_widget(form.email) }}
-    {{ form_errors(form.email) }}
-</div>
+	<div>
+		{{ form_label(form.email) }}
+		{{ form_widget(form.email) }}
+		{{ form_errors(form.email) }}
+	</div>
 
-<div>
-    {{ form_widget(form.password) }}
-    {{ form_errors(form.password) }}
-</div>
+	<div>
+		{{ form_widget(form.password) }}
+		{{ form_errors(form.password) }}
+	</div>
 
-<div>
-    {{ form_label(form.user_name) }}
-    {{ form_widget(form.user_name) }}
-    {{ form_errors(form.user_name) }}
-</div>
+	<div>
+		{{ form_label(form.user_name) }}
+		{{ form_widget(form.user_name) }}
+		{{ form_errors(form.user_name) }}
+	</div>
 
-<div>
-    {{ form_label(form.user_instr) }}
-    {{ form_widget(form.user_instr) }}
-    {{ form_errors(form.user_instr) }}
-</div>
+	<div>
+		{{ form_label(form.user_instr) }}
+		{{ form_widget(form.user_instr) }}
+		{{ form_errors(form.user_instr) }}
+	</div>
 
-<div>
-    {{ form_label(form.story) }}
-    {{ form_widget(form.story) }}
-    {{ form_errors(form.story) }}
-</div>
+	<div>
+		{{ form_label(form.story) }}
+		{{ form_widget(form.story) }}
+		{{ form_errors(form.story) }}
+	</div>
 
-<div>
-    {{ form_label(form.profile_picture) }}
-    {{ form_widget(form.profile_picture) }}
-    {{ form_errors(form.profile_picture) }}
-</div>
+	<div>
+		{{ form_label(form.profile_picture) }}
+		{{ form_widget(form.profile_picture) }}
+		{{ form_errors(form.profile_picture) }}
+	</div>
 
-<div>
-    {{ form_label(form.createdAt) }}
-    {{ form_widget(form.createdAt, {'attr': {'class': 'datepicker'}}) }}
-    {{ form_errors(form.createdAt) }}
-</div>
+	<div>
+		{{ form_label(form.createdAt) }}
+		{{ form_widget(form.createdAt, {'attr': {'class': 'datepicker'}}) }}
+		{{ form_errors(form.createdAt) }}
+	</div>
 
-<div>
-   {{ form_label(form.roles) }}
-    {{ form_widget(form.roles) }}
-    {{ form_errors(form.roles) }}
-</div>
+	<div>
+		{{ form_label(form.roles) }}
+		{{ form_widget(form.roles) }}
+		{{ form_errors(form.roles) }}
+	</div>
 
-<button type="submit">{{ 'Submit'|trans }}</button>
+	<button type="submit">{{ 'Submit'|trans }}</button>
 
-{{ form_end(form) }}
+
+	{{ form_end(form) }}
 
 {% endblock %}
