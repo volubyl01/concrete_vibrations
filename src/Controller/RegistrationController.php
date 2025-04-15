@@ -4,13 +4,15 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\Role;
-use App\Form\RegistrationType;
-use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use App\Form\RegistrationType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
+
 
 final class RegistrationController extends AbstractController
 {
@@ -18,7 +20,8 @@ final class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $passwordHasher,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        Security $security,
     ): Response {
         // Création d'un nouvel utilisateur
         $user = new User();
@@ -37,7 +40,7 @@ final class RegistrationController extends AbstractController
                     $role = $entityManager->getRepository(Role::class)->findOneBy(['name' => $roleName]);
 
                     if ($role) {
-                        // Ajout du rôle à l'utilisateur (assurez-vous que `addRole` existe dans l'entité User)
+                        // Ajout du rôle à l'utilisateur voir addrole dans user
                         $user->addRole($role);
                     } else {
                         // Gestion des rôles non trouvés (optionnel)
@@ -71,7 +74,7 @@ final class RegistrationController extends AbstractController
             }
 
             // Redirection vers la page de connexion après succès
-            return $this->redirectToRoute('app_login');
+            return $security->login($user, 'form_login','main');
         }
 
         // Affichage du formulaire d'inscription dans le template Twig

@@ -272,11 +272,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getRoles(): array
     {
-        // Ajoute ROLE_USER par défaut si aucun rôle n'est défini
-        $roles = $this->roles;
-        $roles = 'ROLE_USER';
+        // On récupère les noms des rôles associés à l'utilisateur
+        $roles = $this->roles->map(fn(Role $role) => $role->getNameRole())->toArray();
 
-        return $this -> roles->map(fn(Role $role) => $role->getNameRole())->toArray();
+        // Si aucun rôle n'est défini, on ajoute ROLE_USER par défaut
+        if (empty($roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+    
+        return $roles;
     }
 
     /**
