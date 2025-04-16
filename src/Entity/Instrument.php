@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\UX\Turbo\Attribute\Broadcast;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: InstrumentRepository::class)]
 #[Broadcast]
@@ -22,6 +24,7 @@ class Instrument
     private ?string $manufacturer = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Choice(choices: ['synthétiseur', 'boite à rythmes', 'sampler'], message: 'Choisissez un type valide.')]
     private ?string $type_instr = null;
 
     #[ORM\Column(length: 100)]
@@ -54,10 +57,10 @@ class Instrument
     #[ORM\Column]
     private ?bool $isApproved = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?array $synthesis_type = null;
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $synthesisType = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 2, scale: 1, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2, nullable: true)]
     private ?string $rating = null;
 
     #[ORM\Column(nullable: true)]
@@ -238,15 +241,30 @@ class Instrument
 
     public function getSynthesisType(): ?array
     {
-        return $this->synthesis_type;
+        if (is_string($this->synthesisType)) {
+            return json_decode($this->synthesisType, true);
+        }
+
+        return $this->synthesisType;
     }
 
-    public function setSynthesisType(?array $synthesis_type): static
+    public function getSynthesisTypeString(): ?string
     {
-        $this->synthesis_type = $synthesis_type;
+        if (is_array($this->synthesisType)) {
+            return json_encode($this->synthesisType);
+        }
 
+        return $this->synthesisType;
+    }
+
+  
+
+    public function setSynthesisType(?array $synthesisType): self
+    {
+        $this->synthesisType = $synthesisType;
         return $this;
     }
+  
 
     public function getRating(): ?string
     {
