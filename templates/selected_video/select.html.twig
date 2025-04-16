@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Enregistrer la vidéo{% endblock %}
+
+{% block body %}
+<h1>Enregistrer la vidéo</h1>
+
+<!-- Affiche les infos de la vidéo  -->
+<h2>{{ youtubeData.snippet.title }}</h2>
+{# <img src="{{ youtubeData.snippet.thumbnails.default.url }}" alt="{{ youtubeData.snippet.title }}"> #}
+<!-- Intégration du lecteur YouTube -->
+{% if youtubeData.id %}
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/{{ videoId }}" frameborder="0" allowfullscreen></iframe>
+{% endif %}
+<p>
+    Publié le:
+    {% if publishedAt %}
+        {{ publishedAt|date('d/m/Y') }}
+    {% else %}
+        Inconnue
+    {% endif %}
+</p>
+
+<!-- Formulaire caché -->
+{{ form_start(form) }}
+    {# {{ form_widget(form) }} #}
+    <button type="submit">Enregistrer</button>
+{{ form_end(form) }}
+
+{% endblock %}
+

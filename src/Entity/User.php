@@ -71,6 +71,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users')]
     private Collection $roles;
 
+    /**
+     * @var Collection<int, SelectedVideo>
+     */
+    #[ORM\OneToMany(targetEntity: SelectedVideo::class, mappedBy: 'user')]
+    private Collection $selectedVideos;
+
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
@@ -78,6 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->contributions = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->roles = new ArrayCollection();
+        $this->selectedVideos = new ArrayCollection();
     }
 
     // nécessaire pour UserInterface
@@ -322,6 +329,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         if ($this->roles->removeElement($role)) {
             $role->removeUser($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SelectedVideo>
+     */
+    public function getSelectedVideos(): Collection
+    {
+        return $this->selectedVideos;
+    }
+
+    public function addSelectedVideo(SelectedVideo $selectedVideo): static
+    {
+        if (!$this->selectedVideos->contains($selectedVideo)) {
+            $this->selectedVideos->add($selectedVideo);
+            $selectedVideo->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSelectedVideo(SelectedVideo $selectedVideo): static
+    {
+        if ($this->selectedVideos->removeElement($selectedVideo)) {
+            // set the owning side to null (unless already changed)
+            if ($selectedVideo->getUser() === $this) {
+                $selectedVideo->setUser(null);
+            }
         }
 
         return $this;
