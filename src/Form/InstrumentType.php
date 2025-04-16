@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
-use App\Entity\Instrument;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Instrument;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class InstrumentType extends AbstractType
 {
@@ -15,7 +16,14 @@ class InstrumentType extends AbstractType
     {
         $builder
             ->add('manufacturer')
-            ->add('type_instr')
+            ->add('type_instr', ChoiceType::class, [
+                'choices' => [
+                    'Synthétiseur' => 'synthétiseur',
+                    'Boite à rythmes' => 'boite à rythmes',
+                    'Sampler' => 'sampler',
+                ],
+                'placeholder' => 'Choisissez un type',
+            ])
             ->add('name_instr')
             ->add('picture_url')
             ->add('year_instr')
