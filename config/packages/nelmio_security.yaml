@@ -1,0 +1,43 @@
+nelmio_security:
+# config/packages/nelmio_security.yaml
+nelmio_security:
+    csp:
+        enabled: true
+        enforce:
+            # URL où le navigateur enverra les rapports de violation CSP
+            report-uri: '%router.request_context.base_url%/nelmio/csp/report'
+
+            # Directives CSP principales
+            default-src: ["'self'"]
+            script-src: ["'self'", "'unsafe-inline'"]
+            img-src: ["'self'", "https://i.ytimg.com"]
+            frame-src: ["https://www.youtube.com"]
+
+            # Bloquer le contenu mixte HTTP sur HTTPS
+            block-all-mixed-content: true
+
+        # Optionnel : mode report-only (ne bloque rien, juste rapporte)
+        # report:
+        #     report-uri: '%router.request_context.base_url%/nelmio/csp/report'
+        #     default-src: ["'self'"]
+        #     frame-src: ["https://www.youtube.com"]
+
+    # prevents framing of the entire site
+    clickjacking:
+        paths:
+            '^/.*': DENY
+
+    # disables content type sniffing for script resources
+    content_type:
+        nosniff: true
+
+    # Send a full URL in the `Referer` header when performing a same-origin request,
+    # only send the origin of the document to secure destination (HTTPS->HTTPS),
+    # and send no header to a less secure destination (HTTPS->HTTP).
+    # If `strict-origin-when-cross-origin` is not supported, use `no-referrer` policy,
+    # no referrer information is sent along with requests.
+    referrer_policy:
+        enabled: true
+        policies:
+            - 'no-referrer'
+            - 'strict-origin-when-cross-origin'

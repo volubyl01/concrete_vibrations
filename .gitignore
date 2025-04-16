@@ -24,4 +24,9 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
 node_modules
+
+/public/build
+/.htaccess
+/uploads
