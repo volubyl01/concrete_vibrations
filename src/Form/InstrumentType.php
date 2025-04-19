@@ -20,7 +20,12 @@ class InstrumentType extends AbstractType
                 'choices' => [
                     'Synthétiseur' => 'synthétiseur',
                     'Boite à rythmes' => 'boite à rythmes',
+                    'Groove Box' => 'groove box',
                     'Sampler' => 'sampler',
+                    'Clavier maître' => 'clavier maître',
+                    'Workstation' => 'workstation',
+                    'Arrangeur' => 'arrangeur',
+                    'Expandeur' => 'expandeur',
                 ],
                 'placeholder' => 'Choisissez un type',
             ])
