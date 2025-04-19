@@ -34,12 +34,7 @@ class ImportSynthetisersCommand extends Command
                 'The path to the json files',
                 __DIR__ . '/../../public/json'
             )
-            ->addArgument(
-                'type_instr',
-                InputArgument::OPTIONAL,
-                'Type d\'instrument importé',
-                'Synthetiser'
-            )
+    
             ->addArgument(
                 'isApproved',
                 InputArgument::OPTIONAL,
@@ -58,12 +53,11 @@ class ImportSynthetisersCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $directory = $input->getArgument('directory');
-        $typeInstr = $input->getArgument('type_instr');
         $isApproved = filter_var($input->getArgument('isApproved'), FILTER_VALIDATE_BOOLEAN);
         $createdAtArg = $input->getArgument('createdAt');
 
         // Récupération des fichiers JSON dans le répertoire
-        $files = glob($directory . '/synthetisers/*.json');
+        $files = glob($directory . '/*.json');
 
         if (empty($files)) {
             $output->writeln('<error>No JSON files found in the specified directory.</error>');
@@ -86,6 +80,7 @@ class ImportSynthetisersCommand extends Command
                 $instrument->setManufacturer(basename($filePath, '.json')); // Utiliser le nom de fichier sans extension
                 // on utilise l'opérateur de coalescence ?? pour fournir une valeur par defaut si la clé n'existe ou est nulle
                 $instrument->setNameInstr($data['name'] ?? '');
+                $instrument->setTypeInstr($data['type'] ?? '');
                 $instrument->setRating($data['rating'] ?? null);
                 // On convertit la valeur en entier avant de la passer au setter avec intval
                 $instrument->setReviewCount(isset($data['review_count']) ? intval($data['review_count']) : null);
@@ -104,7 +99,6 @@ class ImportSynthetisersCommand extends Command
 
 
                 // Champs supplémentaires
-                $instrument->setTypeInstr($typeInstr);
                 $instrument->setIsApproved($isApproved);
 
                 // Gestion de la date de création
