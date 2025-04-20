@@ -9,9 +9,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ImportSynthetisersCommand extends Command
+class ImportInstrumentsCommand extends Command
 {
-    protected static $defaultName = 'app:import-synthetisers';
+    protected static $defaultName = 'app:import-instruments';
     private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
@@ -25,10 +25,10 @@ class ImportSynthetisersCommand extends Command
     {
         $this
             // on définit explicitement le nom de la commande
-            ->setName('app:import-synthetisers')
+            ->setName('app:import-instruments')
 
             // on définit une description de la commande    
-            ->setDescription('Import synthetisers from a json file')
+            ->setDescription('Import instruments from a json file')
 
             ->addArgument(
                 'directory',
