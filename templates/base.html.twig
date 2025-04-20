@@ -8,12 +8,19 @@
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
-
+{# on applique le js via webpack encore #}
         {% block javascripts %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
-        {% block body %}{% endblock %}
+    <body class="bg-gray-100 text-gray-900">
+       <header>
+        {% include 'partials/_nav.html.twig' %}
+    </header>
+        <main class="container mx-auto px-4 py-8">
+            {% block content %}
+            {% endblock %}
+        </main>
+            {% include('partials/_footer.html.twig') %}
     </body>
 </html>

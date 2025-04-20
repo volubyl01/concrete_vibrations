@@ -31,9 +31,9 @@ final class InstrumentController extends AbstractController
         ]);
     }
 
-    // Route pour la recherche
-    #[Route('/recherche', name: 'app_instrument_index', methods: ['GET'])]
-    public function index(InstrumentRepository $instrumentRepository, Request $request): Response
+    // Route pour rechercher parmi tous les instruments 
+    #[Route('/recherche', name: 'app_instrument_search', methods: ['GET'])]
+    public function search(InstrumentRepository $instrumentRepository, Request $request): Response
     {
 
         $searchData = new InstrumentSearchData();
@@ -48,6 +48,24 @@ final class InstrumentController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    // Route pour afficher tous les instruments => poser limite date
+    #[Route('/recherche', name: 'app_instrument_index', methods: ['GET'])]
+    public function index(InstrumentRepository $instrumentRepository, Request $request): Response
+    {
+
+        $searchData = new InstrumentSearchData();
+        $form = $this->createForm(InstrumentSearchType::class, $searchData);
+        $form->handleRequest($request);
+
+        $instruments = $instrumentRepository->findSearch($searchData);
+
+        return $this->render('instrument/index.html.twig', [
+            'instruments' => $instrumentRepository->findAll(),
+            'form' => $form->createView(),
+        ]);
+    }
+
 
 
     #[Route('/new', name: 'app_instrument_new', methods: ['GET', 'POST'])]
