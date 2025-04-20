@@ -3,3 +3,11 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+nelmio_security_csp_report:
+    path: /nelmio/csp/report
+    controller: nelmio_security.csp_reporter_controller::indexAction
+    methods: [POST]
+
+
+

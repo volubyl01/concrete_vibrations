@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Instrument;
+use App\Data\InstrumentSearchData;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,4 +41,32 @@ class InstrumentRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findSearch(InstrumentSearchData $data)
+    {
+        $qb = $this->createQueryBuilder('i');
+    
+        if ($data->q) {
+            $qb->andWhere('i.name_instr LIKE :q OR i.manufacturer LIKE :q')
+               ->setParameter('q', '%' . $data->q . '%');
+        }
+        if ($data->type_instr) {
+            $qb->andWhere('i.type_instr = :type')
+               ->setParameter('type', $data->type_instr);
+        }
+        if ($data->year_min) {
+            $qb->andWhere('i.year_instr >= :year_min')
+               ->setParameter('year_min', $data->year_min);
+        }
+        if ($data->year_max) {
+            $qb->andWhere('i.year_instr <= :year_max')
+               ->setParameter('year_max', $data->year_max);
+        }
+        if ($data->polyphony) {
+            $qb->andWhere('i.polyphony LIKE :poly')
+               ->setParameter('poly', '%' . $data->polyphony . '%');
+        }
+    
+        return $qb->getQuery()->getResult();
+    }
+
 }

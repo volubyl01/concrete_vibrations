@@ -36,6 +36,7 @@ class Instrument
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $year_instr = null;
 
+
     #[ORM\Column(type:'text', nullable: true)]
     private ?string $description = null;
 
@@ -87,10 +88,17 @@ class Instrument
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'instrument')]
     private Collection $comments;
 
+    /**
+     * @var Collection<int, SelectedVideo>
+     */
+    #[ORM\OneToMany(targetEntity: SelectedVideo::class, mappedBy: 'instrument')]
+    private Collection $selectedVideos;
+
     public function __construct()
     {
         $this->contributions = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->selectedVideos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,16 +252,9 @@ class Instrument
         return $this;
     }
 
-    public function getSynthesisType(): ?array
-    {
-        if (is_string($this->synthesisType)) {
-            return json_decode($this->synthesisType, true);
-        }
 
-        return $this->synthesisType;
-    }
-
-    public function getSynthesisTypeString(): ?string
+  
+    public function getSynthesisType(): ?string
     {
         if (is_array($this->synthesisType)) {
             return json_encode($this->synthesisType);
@@ -373,6 +374,35 @@ class Instrument
             // set the owning side to null (unless already changed)
             if ($comment->getInstrument() === $this) {
                 $comment->setInstrument(null);
+            }
+        }
+
+        return $this;
+    }
+
+     * @return Collection<int, SelectedVideo>
+     */
+    public function getSelectedVideos(): Collection
+    {
+        return $this->selectedVideos;
+    }
+
+    public function addSelectedVideo(SelectedVideo $selectedVideo): static
+    {
+        if (!$this->selectedVideos->contains($selectedVideo)) {
+            $this->selectedVideos->add($selectedVideo);
+            $selectedVideo->setInstrument($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSelectedVideo(SelectedVideo $selectedVideo): static
+    {
+        if ($this->selectedVideos->removeElement($selectedVideo)) {
+            // set the owning side to null (unless already changed)
+            if ($selectedVideo->getInstrument() === $this) {
+                $selectedVideo->setInstrument(null);
             }
         }
 
