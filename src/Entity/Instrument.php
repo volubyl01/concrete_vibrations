@@ -36,7 +36,8 @@ class Instrument
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $year_instr = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+
+    #[ORM\Column(type:'text', nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
@@ -164,6 +165,8 @@ class Instrument
 
         return $this;
     }
+
+
 
     public function getOscillators(): ?int
     {
@@ -377,7 +380,6 @@ class Instrument
         return $this;
     }
 
-    /**
      * @return Collection<int, SelectedVideo>
      */
     public function getSelectedVideos(): Collection
