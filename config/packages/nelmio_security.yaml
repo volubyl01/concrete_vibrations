@@ -10,11 +10,19 @@ nelmio_security:
             # Directives CSP principales
             default-src: ["'self'"]
             script-src: ["'self'", "'unsafe-inline'"]
-            img-src: ["'self'", "https://i.ytimg.com"]
             frame-src: ["https://www.youtube.com"]
 
             # Bloquer le contenu mixte HTTP sur HTTPS
             block-all-mixed-content: true
+            # autoriser les requetes pour des ojets base64 sur site externe
+            img-src:
+                - "'self'"
+                - "data:"
+                - "https://synthetiseur.net"
+            style-src:
+                - "'self'"
+                - "'unsafe-inline'"   
+    
 
         # Optionnel : mode report-only (ne bloque rien, juste rapporte)
         # report:
