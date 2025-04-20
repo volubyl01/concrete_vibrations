@@ -380,7 +380,7 @@ class Instrument
         return $this;
     }
 
-     * @return Collection<int, SelectedVideo>
+     /** @return Collection<int, SelectedVideo>
      */
     public function getSelectedVideos(): Collection
     {
