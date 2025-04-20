@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello RegistrationController!
+{% block title %}Inscription
 {% endblock %}
+{% block content %}
 
-{% block body %}
 	<style>
 		.example-wrapper {
 			margin: 1em auto;
@@ -59,11 +59,11 @@
 		{{ form_widget(form.createdAt, {'attr': {'class': 'datepicker'}}) }}
 		{{ form_errors(form.createdAt) }}
 	</div>
-
-
+	
 	<button type="submit">{{ 'Submit'|trans }}</button>
 
 
 	{{ form_end(form) }}
+
 
 {% endblock %}
