@@ -26,8 +26,10 @@ class ImportSynthetisersCommand extends Command
         $this
             // on définit explicitement le nom de la commande
             ->setName('app:import-synthetisers')
+
             // on définit une description de la commande    
             ->setDescription('Import synthetisers from a json file')
+
             ->addArgument(
                 'directory',
                 InputArgument::OPTIONAL,
@@ -46,6 +48,19 @@ class ImportSynthetisersCommand extends Command
                 InputArgument::OPTIONAL,
                 'Date de création de l\'instrument',
                 null
+            )
+            ->addArgument(
+                'user',
+                InputArgument::OPTIONAL,
+                'utilisateur',
+               
+            )
+            ->addArgument(
+                'description',
+                InputArgument::OPTIONAL,
+                'description',
+                null
+               
             );
     }
 
@@ -55,9 +70,21 @@ class ImportSynthetisersCommand extends Command
         $directory = $input->getArgument('directory');
         $isApproved = filter_var($input->getArgument('isApproved'), FILTER_VALIDATE_BOOLEAN);
         $createdAtArg = $input->getArgument('createdAt');
+        $user = $input->getArgument('user');
 
         // Récupération des fichiers JSON dans le répertoire
         $files = glob($directory . '/*.json');
+
+
+// on insère automatiquement le nom de l'administrateur du site
+$adminUser = $this->entityManager
+    ->getRepository(\App\Entity\User::class)
+    ->findOneBy(['user_name' => 'Administrateur']); 
+
+if (!$adminUser) {
+    $output->writeln('<error>Admin user not found.</error>');
+    return Command::FAILURE;
+}
 
         if (empty($files)) {
             $output->writeln('<error>No JSON files found in the specified directory.</error>');
@@ -96,10 +123,10 @@ class ImportSynthetisersCommand extends Command
                 $instrument->setMultitimbral($data['multitimbral'] ?? '');
 
                 $instrument->setSynthesisType($data['synthesis_types'] ?? []);
-
-
-                // Champs supplémentaires
+                $instrument->setUser($adminUser);
+                $instrument->setDescription($data['description'] ?? '');
                 $instrument->setIsApproved($isApproved);
+               
 
                 // Gestion de la date de création
                 if ($createdAtArg) {
