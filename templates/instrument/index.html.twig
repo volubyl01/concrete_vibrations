@@ -1,65 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Instrument index{% endblock %}
-
 {% block body %}
-    <h1>Instrument index</h1>
+    <h1 class="text-2xl font-bold mb-4">Recherche d'instruments</h1>
+    {{ form_start(form, {'attr': {'class': 'flex flex-wrap gap-2 mb-4'}}) }}
+        {{ form_row(form.q, {'attr': {'class': 'border p-2 rounded'}}) }}
+        {{ form_row(form.type_instr, {
+           
+            'label': 'Type d\'instrument',
+            'attr': {'class': 'border p-2 rounded'}
+            }) }}
+        {{ form_row(form.year_min, {'attr': {'class': 'border p-2 rounded'}}) }}
+        {{ form_row(form.year_max, {'attr': {'class': 'border p-2 rounded'}}) }}
+        {{ form_row(form.polyphony, {'attr': {'class': 'border p-2 rounded'}}) }}
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Rechercher</button>
+    {{ form_end(form) }}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Manufacturer</th>
-                <th>Type_instr</th>
-                <th>Name_instr</th>
-                <th>Picture_url</th>
-                <th>Year_instr</th>
-                <th>Oscillators</th>
-                <th>Envelopes</th>
-                <th>Filter_instr</th>
-                <th>Lfos</th>
-                <th>Polyphony</th>
-                <th>Multitimbral</th>
-                <th>IsApproved</th>
-                <th>Synthesis_type</th>
-                <th>Rating</th>
-                <th>Review_count</th>
-                <th>CreatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {% for instrument in instruments %}
-            <tr>
-                <td>{{ instrument.id }}</td>
-                <td>{{ instrument.manufacturer }}</td>
-                <td>{{ instrument.typeInstr }}</td>
-                <td>{{ instrument.nameInstr }}</td>
-                <td>{{ instrument.pictureUrl }}</td>
-                <td>{{ instrument.yearInstr }}</td>
-                <td>{{ instrument.oscillators }}</td>
-                <td>{{ instrument.envelopes }}</td>
-                <td>{{ instrument.filterInstr }}</td>
-                <td>{{ instrument.lfos }}</td>
-                <td>{{ instrument.polyphony }}</td>
-                <td>{{ instrument.multitimbral }}</td>
-                <td>{{ instrument.isApproved ? 'Yes' : 'No' }}</td>
-                <td>{{ instrument.synthesisType ? instrument.synthesisType|json_encode : '' }}</td>
-                <td>{{ instrument.rating }}</td>
-                <td>{{ instrument.reviewCount }}</td>
-                <td>{{ instrument.createdAt ? instrument.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_instrument_show', {'id': instrument.id}) }}">show</a>
-                    <a href="{{ path('app_instrument_edit', {'id': instrument.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="18">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            <div class="p-4 border rounded flex flex-col items-center bg-white shadow">
+                {% if instrument.pictureUrl %}
+                    <img src="{{ instrument.pictureUrl }}" alt="{{ instrument.nameInstr }}" width="180" height="180" class="w-60 h-60 object-fit">
+                    {# on ajoute explcitement la taille 
+                     #}
+                {% endif %}
+                <div class="text-center">
+                    <strong>{{ instrument.nameInstr }}</strong> <br>
+                    <span class="text-sm text-gray-600">Fabricant : {{ instrument.manufacturer }}</span><br>
+                    <span class="text-sm text-gray-600">Type : {{ instrument.typeInstr }}</span><br>
+                    <span class="text-sm text-gray-600">Année : {{ instrument.yearInstr }}</span><br>
+                    <span class="text-xs text-gray-500 block mt-2">{{ instrument.description }}</span>
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <a href="{{ path('app_instrument_show', {'id': instrument.id}) }}" class="text-blue-600 hover:underline text-sm font-medium">Voir</a>
+                    <a href="{{ path('app_instrument_edit', {'id': instrument.id}) }}" class="text-yellow-600 hover:underline text-sm font-medium">Éditer</a>
+                </div>
 
-    <a href="{{ path('app_instrument_new') }}">Create new</a>
+            </div>
+        {% else %}
+            <div class="col-span-3 text-center">Aucun instrument trouvé.</div>
+        {% endfor %}
+    </div>
 {% endblock %}

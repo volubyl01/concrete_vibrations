@@ -36,6 +36,9 @@ class Instrument
     #[ORM\Column(type: Types::SMALLINT)]
     private ?int $year_instr = null;
 
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $description = null;
+
     #[ORM\Column(nullable: true)]
     private ?int $oscillators = null;
 
@@ -246,16 +249,9 @@ class Instrument
         return $this;
     }
 
-    public function getSynthesisType(): ?array
-    {
-        if (is_string($this->synthesisType)) {
-            return json_decode($this->synthesisType, true);
-        }
 
-        return $this->synthesisType;
-    }
-
-    public function getSynthesisTypeString(): ?string
+  
+    public function getSynthesisType(): ?string
     {
         if (is_array($this->synthesisType)) {
             return json_encode($this->synthesisType);
@@ -407,6 +403,30 @@ class Instrument
                 $selectedVideo->setInstrument(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * Get the value of description
+     *
+     * @return ?string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set the value of description
+     *
+     * @param ?string $description
+     *
+     * @return self
+     */
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

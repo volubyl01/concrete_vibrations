@@ -7,5 +7,7 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
+
 import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import './styles/app.css';
