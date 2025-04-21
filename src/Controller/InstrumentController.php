@@ -49,19 +49,21 @@ final class InstrumentController extends AbstractController
         ]);
     }
 
-    // Route pour afficher tous les instruments => poser limite date
-    #[Route('/recherche', name: 'app_instrument_index', methods: ['GET'])]
-    public function index(InstrumentRepository $instrumentRepository, Request $request): Response
+    // Route pour afficher les 6 derniers instruments ajoutés
+    #[Route('/actualités', name: 'app_instrument_actu', methods: ['GET'])]
+    public function findBytInstrument(InstrumentRepository $instrumentRepository, Request $request): Response
     {
 
         $searchData = new InstrumentSearchData();
         $form = $this->createForm(InstrumentSearchType::class, $searchData);
         $form->handleRequest($request);
 
-        $instruments = $instrumentRepository->findSearch($searchData);
+        // On récupère les 6 derniers instruments ajoutés
+        $instruments = $instrumentRepository->findByName(6);
 
-        return $this->render('instrument/index.html.twig', [
-            'instruments' => $instrumentRepository->findAll(),
+
+        return $this->render('instrument/actu.html.twig', [
+            'instruments' => $instruments,
             'form' => $form->createView(),
         ]);
     }

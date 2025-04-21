@@ -18,12 +18,15 @@
                     <a href="{{ path('app_about') }}" class="block px-4 py-2 text-lg text-red-600 hover:text-red-800 font-semibold">A propos</a>
                 </li>
                 <li>
-                    <a href="{{ path('app_instrument_index') }}" class="block px-4 py-2 text-lg text-red-600 hover:text-red-800 font-semibold">Les instruments</a>
+                    <a href="{{ path('instrument_synths') }}" class="block px-4 py-2 text-lg text-red-600 hover:text-red-800 font-semibold">Synthétiseurs</a>
                 </li>
 				
-                {% if app.user %}
+                {% if is_granted('ROLE_USER') %}
 				 <li>
                     <a href="{{ path('app_instrument_search') }}" class="block px-4 py-2 text-lg text-red-600 hover:text-red-800 font-semibold">Chercher un instrument</a>
+                </li>
+                <li>
+                    <a href="{{ path('app_instrument_actu') }}" class="block px-4 py-2 text-lg text-red-600 hover:text-red-800 font-semibold">Actualités</a>
                 </li>
 				<li>
                     <a href="{{ path('app_home_connected') }}" class="block px-4 py-2 text-lg text-red-600 hover:text-red-800 font-semibold">Home</a>

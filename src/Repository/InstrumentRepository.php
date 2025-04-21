@@ -69,4 +69,14 @@ class InstrumentRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+
+    public function findByName(int $limit = 6): array
+{
+    return $this->createQueryBuilder('i')
+        ->orderBy('i.createdAt', 'DESC') 
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
+
 }

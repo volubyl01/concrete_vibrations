@@ -1,25 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Concrete Vibrations - Accueil{% endblock %}
 
-{% block body %}
-{% include "partials/_nav.html.twig" %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+{% block content %}
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<video autoplay muted loop id="background-video"
+        style="position: fixed;
+               right: 0;
+               bottom: 0;
+               min-width: 100vw;
+               min-height: 100vh;
+               width: auto;
+               height: auto;
+               z-index: -1;
+               object-fit: cover;">
+        <source src="{{ asset('videos/vidsplay-abstract-digital-waves.mp4 (1080p).mp4') }}" type="video/mp4">
+    </video>
 
-    This friendly message is coming from:
+<div class="bienvenue-wrapper">
+    <h1>Bienvenu-es sur le site web des synthétiseurs mythiques</h1>
     <ul>
-        <li>Your controller at <code>E:/DEVELOPPEMENT/concrete_vibrations/src/Controller/HomeController.php</code></li>
-        <li>Your template at <code>E:/DEVELOPPEMENT/concrete_vibrations/templates/home/index.html.twig</code></li>
+       
     </ul>
 </div>
 <div class="font-funnel">
-<h1>Oh là là Gaga</h1>
+<h1>Qui sommes-nous ?</h1>
 </div>
-{% include "partials/_footer.html.twig" %}
 {% endblock %}
