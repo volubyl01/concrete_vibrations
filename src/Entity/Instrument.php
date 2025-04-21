@@ -24,7 +24,7 @@ class Instrument
     private ?string $manufacturer = null;
 
     #[ORM\Column(length: 50)]
-    #[Assert\Choice(choices: ['synthétiseur', 'boite à rythmes', 'sampler'], message: 'Choisissez un type valide.')]
+    #[Assert\Choice(choices: ['Synthétiseur', 'Boite à rythmes', 'Sampleur', 'Clavier maître', 'Groove Box', 'Workstation', 'Arrangeur', 'Expandeur'], message: 'Choisissez un type valide.')]
     private ?string $type_instr = null;
 
     #[ORM\Column(length: 100)]

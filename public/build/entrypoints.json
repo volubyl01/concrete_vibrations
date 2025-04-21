@@ -3,10 +3,11 @@
     "app": {
       "js": [
         "/build/runtime.js",
+        "/build/vendors-node_modules_fortawesome_fontawesome-free_css_all_min_css-node_modules_core-js_module-145b21.js",
         "/build/app.js"
       ],
       "css": [
-        "/build/vendors-node_modules_fortawesome_fontawesome-free_css_all_min_css.css",
+        "/build/vendors-node_modules_fortawesome_fontawesome-free_css_all_min_css-node_modules_core-js_module-145b21.css",
         "/build/app.css"
       ]
     }

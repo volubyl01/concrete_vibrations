@@ -1,6 +1,11 @@
 twig:
     file_name_pattern: '*.twig'
+    form_themes:
+        - 'tailwind_2_layout.html.twig'
+        # par defaut symfony utilisera tailwind pour les champs de formulaire
 
 when@test:
     twig:
         strict_variables: true
+
+

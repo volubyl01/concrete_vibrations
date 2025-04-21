@@ -40,4 +40,16 @@ class SelectedVideoRepository extends ServiceEntityRepository
     //            ->getOneOrNullResult()
     //        ;
     //    }
+
+
+public function findByCategory($category, $limit = 10)
+{
+    return $this->createQueryBuilder('v')
+        ->where('v.category = :cat')
+        ->setParameter('cat', $category)
+        ->setMaxResults($limit)
+        ->getQuery()
+        ->getResult();
+}
+
 }
