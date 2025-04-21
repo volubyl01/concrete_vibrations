@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Concrete Vibrations{% endblock %}</title>
-        <link rel="icon" href="{{ asset('build/images/ondes_sonores.ico') }}" type="image/x-icon" />
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon" />
   {# on applique les styles via webpack encore #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
@@ -22,9 +22,11 @@
         </main>
             {% include('partials/_footer.html.twig') %}
 
-            {# on applique le js via webpack encore #}
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+            {# on applique le js via webpack encore et pret pour le versioning#}
+      {% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+
     </body>
 </html>

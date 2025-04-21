@@ -25,11 +25,11 @@ class SearchVideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $query = $form->get('query')->getData();
-            $regionCode = $form->get('region_code')->getData();
-            $videoCategory = $form->get('video_category_id')->getData();
+            // $regionCode = $form->get('region_code')->getData();
+            // $videoCategory = $form->get('video_category_id')->getData();
             $maxResults = $form->get('max_results')->getData();
 
-            $videos = $youtubeService->searchVideos($query, $maxResults, $videoCategory, $regionCode);
+            $videos = $youtubeService->searchVideos($query, $maxResults);
         }
 
         return $this->render('youtube/search.html.twig', [

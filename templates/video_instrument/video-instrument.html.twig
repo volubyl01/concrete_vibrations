@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Associer une vidéo à un instrument{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Associer une vidéo à un instrument</h1>
+
+    {# Affichage des messages de succès #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    {{ form_start(form) }}
+{# Possible car classe hidden dans le controlleur du formulaire #}
+        <div class="mb-4">
+            <label><strong>Choisissez une vidéo :</strong></label>
+            <div class="row" id="video-gallery">
+                {% for video in selectedVideos %}
+                    <div class="col-6 col-md-3 text-center mb-3">
+                        <img 
+                            src="{{ asset(video.thumbnailUrl) }}" 
+                            alt="{{ video.title }}" 
+                            class="img-fluid rounded shadow-sm mb-2 video-vignette"
+                            data-video-id="{{ video.id }}"
+                            style="max-height: 80px; cursor:pointer;"
+                        >
+                        <div>{{ video.title }}</div>
+                    </div>
+                {% else %}
+                    <div class="col-12 text-center text-muted">Aucune vidéo sélectionnée.</div>
+                {% endfor %}
+            </div>
+            {{ form_widget(form.selectedvideo, {'attr': {'type': 'hidden'}}) }}
+            {{ form_errors(form.selectedvideo) }}
+        </div>
+
+        <div class="mb-4">
+    <label><strong>Choisissez un instrument :</strong></label>
+    <div class="row" id="instrument-gallery">
+        {% for instrument in instruments %}
+            <div class="col-6 col-md-3 text-center mb-3">
+                <img 
+                    src="{{ asset(instrument.pictureUrl) }}" 
+                    alt="{{ instrument.nameInstr }}" 
+                    class="img-fluid rounded shadow-sm mb-2 instrument-vignette"
+                    data-instrument-id="{{ instrument.id }}"
+                    style="max-height: 80px; cursor:pointer;"
+                >
+                <div>{{ instrument.nameInstr }}</div>
+            </div>
+        {% else %}
+            <div class="col-12 text-center text-muted">Aucun instrument disponible.</div>
+        {% endfor %}
+    </div>
+    {{ form_widget(form.instrument, {'attr': {'type': 'hidden'}}) }}
+    {{ form_errors(form.instrument) }}
+</div>
+
+        <button type="submit" class="btn btn-primary">Associer</button>
+    {{ form_end(form) }}
+</div>
+
+{% endblock %}

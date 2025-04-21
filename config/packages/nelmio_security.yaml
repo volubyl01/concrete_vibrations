@@ -19,6 +19,8 @@ nelmio_security:
                 - "'self'"
                 - "data:"
                 - "https://synthetiseur.net"
+                - "https://img.youtube.com/vi/"
+                - "https://i.ytimg.com"
             style-src:
                 - "'self'"
                 - "'unsafe-inline'"   

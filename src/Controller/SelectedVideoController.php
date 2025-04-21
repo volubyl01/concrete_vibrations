@@ -11,15 +11,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-
-
 #[Route('/selected/video', name: 'app_selected_video_list_')]
 class SelectedVideoController extends AbstractController
 {
     #[Route('/', name: 'index')]
     public function index(EntityManagerInterface $em): Response
     {
-        $videos = $em->getRepository(SelectedVideo::class)->findAll();
+        $user = $this->getUser();
+        $videos = [];
+
+        if ($user) {
+            $videos = $em->getRepository(SelectedVideo::class)->findBy(['user' => $user]);
+        }
 
         return $this->render('selected_video/index.html.twig', [
             'videos' => $videos,
@@ -40,6 +43,8 @@ class SelectedVideoController extends AbstractController
         $selectedVideo->setTitle($youtubeData['snippet']['title'] ?? '');
         $selectedVideo->setThumbnailUrl($youtubeData['snippet']['thumbnails']['default']['url'] ?? '');
 
+        // Initialiser $publishedAt par défaut à null
+        $publishedAt = null;
         if (!empty($youtubeData['snippet']['publishedAt'])) {
             try {
                 $publishedAt = new \DateTime($youtubeData['snippet']['publishedAt']);
@@ -60,6 +65,13 @@ class SelectedVideoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $selectedVideo->setSelectedAt(new \DateTime());
+
+            // Associer l'utilisateur courant
+            $user = $this->getUser();
+            if ($user) {
+                $selectedVideo->setUser($user);
+            }
+
             $em->persist($selectedVideo);
             $em->flush();
 

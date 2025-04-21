@@ -2,22 +2,22 @@
 
 {% block title %}Recherche YouTube{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Recherche YouTube</h1>
 
     {{ form_start(form) }}
         <div>
-            {{ form_label(form.query) }}
+            {# {{ form_label(form.query) }} #}
             {{ form_row(form.query) }}
         </div>
-        <div>
+        {# <div>
             {{ form_label(form.region_code) }}
             {{ form_widget(form.region_code) }}
-        </div>
-        <div>
+        </div> #}
+        {# <div>
             {{ form_label(form.video_category_id) }}
             {{ form_widget(form.video_category_id) }}
-        </div>
+        </div> #}
         <div>
             {{ form_label(form.max_results) }}
             {{ form_widget(form.max_results) }}
@@ -30,7 +30,9 @@
         <ul>
             {% for video in videos %}
                 <li>
-                    <img src="{{ video.thumbnailUrl }}" alt="{{ video.title }}" width="120" />
+                    <img src="https://img.youtube.com/vi/{{ video.videoId }}/hqdefault.jpg" alt="{{ video.title }}" width="240" />
+                    {# <iframe src="{{ video.thumbnailUrl }}" alt="{{ video.title }}" width="240" /></iframe> #}
+                    {# <img src="https://img.youtube.com/vi/{{ video.videoId }}/hqdefault.jpg" alt="{{ video.title }}" width="240" /> #}
                     <strong>{{ video.title }}</strong><br>
                     <a href="https://www.youtube.com/watch?v={{ video.videoId }}" target="_blank">Voir sur YouTube</a>
                     <!-- Lien pour sélectionner la vidéo -->

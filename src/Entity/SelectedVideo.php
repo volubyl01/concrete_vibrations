@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\SelectedVideoRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SelectedVideoRepository::class)]
@@ -11,10 +10,10 @@ class SelectedVideo
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'string')]
     private ?string $videoId = null;
 
     #[ORM\Column(length: 255)]
@@ -29,10 +28,12 @@ class SelectedVideo
     #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTime $selectedAt = null;
 
-    #[ORM\ManyToOne(inversedBy: 'selectedVideos')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'selectedVideos')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
-    #[ORM\ManyToOne(inversedBy: 'selectedVideos')]
+    #[ORM\ManyToOne(targetEntity: Instrument::class, inversedBy: 'selectedVideos')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Instrument $instrument = null;
 
     public function getId(): ?int
@@ -45,10 +46,9 @@ class SelectedVideo
         return $this->videoId;
     }
 
-    public function setVideoId(string $videoId): static
+    public function setVideoId(string $videoId): self
     {
         $this->videoId = $videoId;
-
         return $this;
     }
 
@@ -57,10 +57,9 @@ class SelectedVideo
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(string $title): self
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -69,10 +68,9 @@ class SelectedVideo
         return $this->thumbnailUrl;
     }
 
-    public function setThumbnailUrl(string $thumbnailUrl): static
+    public function setThumbnailUrl(string $thumbnailUrl): self
     {
         $this->thumbnailUrl = $thumbnailUrl;
-
         return $this;
     }
 
@@ -81,10 +79,9 @@ class SelectedVideo
         return $this->user;
     }
 
-    public function setUser(?User $user): static
+    public function setUser(?User $user): self
     {
         $this->user = $user;
-
         return $this;
     }
 
@@ -93,58 +90,31 @@ class SelectedVideo
         return $this->instrument;
     }
 
-    public function setInstrument(?Instrument $instrument): static
+    public function setInstrument(?Instrument $instrument): self
     {
         $this->instrument = $instrument;
-
         return $this;
     }
 
-    /**
-     * Get the value of publishedAt
-     *
-     * @return ?\DateTime
-     */
     public function getPublishedAt(): ?\DateTime
     {
         return $this->publishedAt;
     }
 
-    /**
-     * Set the value of publishedAt
-     *
-     * @param ?\DateTime $publishedAt
-     *
-     * @return self
-     */
     public function setPublishedAt(?\DateTime $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
-
         return $this;
     }
 
-    /**
-     * Get the value of selectedAt
-     *
-     * @return ?\DateTime
-     */
     public function getSelectedAt(): ?\DateTime
     {
         return $this->selectedAt;
     }
 
-    /**
-     * Set the value of selectedAt
-     *
-     * @param ?\DateTime $selectedAt
-     *
-     * @return self
-     */
     public function setSelectedAt(?\DateTime $selectedAt): self
     {
         $this->selectedAt = $selectedAt;
-
         return $this;
     }
 }

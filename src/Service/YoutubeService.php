@@ -25,7 +25,7 @@ class YoutubeService
                 'q' => $query,
                 'maxResults' => $maxResults,
                 'type' => 'video',
-                'fields' => 'items(id/videoId,snippet/title,snippet/thumbnails/default)',
+                'fields' => 'items(id/videoId,snippet/title,snippet/thumbnails/default,snippet/thumbnails/medium,snippet/thumbnails/high,snippet/publishedAt)',
             ];
 
             if ($videoCategory) {
@@ -41,11 +41,17 @@ class YoutubeService
             $videos = [];
 
             foreach ($searchResponse->items as $searchResult) {
-                if (isset($searchResult->id->videoId, $searchResult->snippet->title, $searchResult->snippet->thumbnails->default->url)) {
+                // Récupère la meilleure vignette disponible
+                $thumbnailUrl = $searchResult->snippet->thumbnails->high->url
+                    ?? $searchResult->snippet->thumbnails->medium->url
+                    ?? $searchResult->snippet->thumbnails->default->url
+                    ?? null;
+
+                if (isset($searchResult->id->videoId, $searchResult->snippet->title, $thumbnailUrl)) {
                     $videos[] = [
                         'videoId' => $searchResult->id->videoId,
                         'title' => $searchResult->snippet->title,
-                        'thumbnailUrl' => $searchResult->snippet->thumbnails->default->url,
+                        'thumbnailUrl' => $thumbnailUrl,
                         'publishedAt' => $searchResult->snippet->publishedAt ?? null,
                     ];
                 }
@@ -62,7 +68,7 @@ class YoutubeService
         try {
             $response = $this->youtube->videos->listVideos('snippet,contentDetails', [
                 'id' => $videoId,
-                'fields' => 'items(id,snippet/title,snippet/description,snippet/thumbnails/default,snippet/publishedAt,contentDetails/duration)',
+                'fields' => 'items(id,snippet/title,snippet/description,snippet/thumbnails/default,snippet/thumbnails/medium,snippet/thumbnails/high,snippet/publishedAt,contentDetails/duration)',
                 'maxResults' => 1,
             ]);
 

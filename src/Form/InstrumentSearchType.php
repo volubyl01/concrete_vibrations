@@ -24,7 +24,7 @@ class InstrumentSearchType extends AbstractType
                 'Synthétiseur' => 'synthétiseur',
                 'Boite à rythmes' => 'boite à rythmes',
                 'Groove Box' => 'groove box',
-                'Sampler' => 'sampler',
+                'Sampleur' => 'sampleur',
                 'Clavier maître' => 'clavier maître',
                 'Workstation' => 'workstation',
                 'Arrangeur' => 'arrangeur',

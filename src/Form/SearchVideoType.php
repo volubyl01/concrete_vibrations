@@ -18,23 +18,7 @@ class SearchVideoType extends AbstractType
                 'label' => 'Recherche',
                 'required' => true,
             ])
-            ->add('region_code', ChoiceType::class, [
-                'label' => 'Code région (ex: FR)',
-                'required' => false,
-                'choices' => [
-                    'fr' => 'France',
-                    'us' => 'USA',
-                ],
-            ])
-            ->add('video_category_id', ChoiceType::class, [
-                'label' => 'Catégorie (optionnelle)',
-                'required' => false,
-                'choices' => [
-                    '10' => 'Musique',
-                    '17' => 'Sport',
-                    '20' => 'Jeux',
-                ],
-            ])
+         
             ->add('max_results', IntegerType::class, [
                 'label' => 'Nombre de résultats',
                 'required' => false,
