@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Instrument index{% endblock %}
+{% block title %}Liste des synthetiseurs{% endblock %}
 
-{% block body %}
-    <h1 class="text-2xl font-bold mb-6">Instrument index</h1>
+{% block content %}
+    <h1 class="text-2xl font-bold mb-6">Liste des synthetiseurs</h1>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {% for instrument in instruments %}
@@ -14,7 +14,7 @@
                 {% endif %}
                 <div class="p-4 flex flex-col flex-grow">
                     <h2 class="text-xl font-semibold mb-1">{{ instrument.nameInstr }}</h2>
-                    <p class="text-gray-600 mb-2">{{ instrument.manufacturer }} - {{ instrument.typeInstr }}</p>
+                    <p class="text-gray-600 mb-2">{{ instrument.manufacturer }}</p>
                     <p class="text-gray-700 text-sm flex-grow">
                         <strong>Year:</strong> {{ instrument.yearInstr }}<br>
                         <strong>Oscillators:</strong> {{ instrument.oscillators }}<br>

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue electro-fan !{% endblock %}
+
+{% block content %}
+    <video autoplay muted loop id="background-video"
+        style="position: fixed;
+               right: 0;
+               bottom: 0;
+               min-width: 100vw;
+               min-height: 100vh;
+               width: auto;
+               height: auto;
+               z-index: -1;
+               object-fit: cover;">
+        <source src="{{ asset('videos/abstract-green-line-waves (720p).mp4') }}" type="video/mp4">
+    </video>
+
+    
+
+    <h1>Bienvenu-e Electro-Fan ! ✅</h1>
+
+{% endblock %}
+

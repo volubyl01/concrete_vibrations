@@ -8,11 +8,26 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class HomeConnectedController extends AbstractController
 {
-    #[Route('/home/connected', name: 'app_home_connected')]
+
+// on chisiit ses backgrounds par méthode
+private $backgroundVideos = [
+    'home-connected' => 'public/videos/abstract-green-line-waves (720p).mp4',
+];
+
+    #[Route('/home-connected', name: 'app_home_connected')]
     public function index(): Response
     {
-        return $this->render('home_connected/index.html.twig', [
+
+// Si l'utilisateur ,'est pas connecté, on le redirige
+if (!$this->getUser()) {
+    return $this->redirectToRoute('app_home');
+}
+
+
+
+        return $this->render('home-connected/index.html.twig', [
             'controller_name' => 'HomeConnectedController',
+            'backgroundVideo' => $this->backgroundVideos['home-connected'],
         ]);
     }
 }

@@ -11,3 +11,13 @@
 import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import './styles/app.css';
+
+// Pour ralentir la vidéo à 0.2x (5 fois plus lent)
+document.addEventListener('DOMContentLoaded', function() {
+    var video = document.getElementById('background-video');
+    if (video) {
+      video.playbackRate = 0.2;
+    }
+  });
+
+  
