@@ -90,13 +90,17 @@ final class InstrumentController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_instrument_show', methods: ['GET'])]
-    public function show(Instrument $instrument): Response
-    {
-        return $this->render('instrument/show.html.twig', [
-            'instrument' => $instrument,
-        ]);
+    #[Route('/instrument/{id}', name: 'app_instrument_show', requirements: ['id' => '\d+'], methods: ['POST'])]
+public function show(int $id, InstrumentRepository $repo): Response
+{
+    $instrument = $repo->find($id);
+    if (!$instrument) {
+        throw $this->createNotFoundException('Instrument non trouvé.');
     }
+    return $this->render('instrument/show.html.twig', [
+        'instrument' => $instrument,
+    ]);
+}
 
     #[Route('/{id}/edit', name: 'app_instrument_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Instrument $instrument, EntityManagerInterface $entityManager): Response

@@ -283,6 +283,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
+     * dois fournir un tableau de chaînes (exigé par l’interface UserInterface de Symfony), transformer cette collection d’objets Role en tableau de chaînes dans getRoles(). 
+     * la méthode getrole retourne une chaine de caractère
      * @see UserInterface
      */
     // pour la sécurité 
@@ -323,6 +325,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+// pour le formulaire : on retire un rôle de la collection d'objets Role
+
+
+// removeRole(Role $role) est différent de delete().
+
+// removeRole() est une méthode métier qui modifie l’état interne de l’objet User en retirant un rôle de sa collection.
+
+// Cette méthode fait partie du comportement de la classe et donc doit être modélisée dans UML.
+// delete() ou remove() (suppression en base)	Non	Opération de persistance externe, gérée par ORM ou service de persistance.
 
     public function removeRole(Role $role): self
     {

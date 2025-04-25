@@ -23,7 +23,11 @@ nelmio_security:
                 - "https://i.ytimg.com"
             style-src:
                 - "'self'"
-                - "'unsafe-inline'"   
+                - "'unsafe-inline'"
+            connect-src:
+                - "'self'"
+                - "http://localhost:8000"
+                    
     
 
         # Optionnel : mode report-only (ne bloque rien, juste rapporte)

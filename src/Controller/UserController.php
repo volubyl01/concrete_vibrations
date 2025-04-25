@@ -73,6 +73,8 @@ final class UserController extends AbstractController
         ]);
     }
 
+
+    // méthode d'accès aux données avec persistance. Ne fait pas partie du schéma UML
     #[Route('/{id}', name: 'app_user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user, EntityManagerInterface $entityManager): Response
     {
