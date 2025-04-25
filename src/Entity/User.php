@@ -68,8 +68,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Role>
      */
     // users car un role peut avoir plusieurs users
-    #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'users')]
+    // User propritaire de l'association c'est la que se fait la définition de la table de jointure
+    #[ORM\ManyToMany(targetEntity: Role::class, inversedBy: 'users')]
+    #[ORM\JoinTable(name: 'role_user')]
     private Collection $roles;
+    
 
     /**
      * @var Collection<int, SelectedVideo>
@@ -320,7 +323,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->roles->contains($role)) {
             $this->roles->add($role);
-            $role->addUser($this);
         }
 
         return $this;
@@ -339,7 +341,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
 
         if ($this->roles->removeElement($role)) {
-            $role->removeUser($this);
+            $role->removeUser($this); // Met à jour côté
         }
 
         return $this;

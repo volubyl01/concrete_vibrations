@@ -23,9 +23,8 @@ class Role
     /**
      * @var Collection<int, User>
      */
-    #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'roles')]
-    #[ORM\JoinTable(name: 'role_user')]
-    // un role peut être attribué à plusieurs utilisateurs : $users
+    #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles')]
+    // un role peut être attribué à plusieurs utilis : $users
     private Collection $users;
 
     /**
@@ -65,8 +64,9 @@ class Role
         return $this->users;
     }
 
-    public function addUser(User $user): static
+    public function addUser(User $user): self
     {
+
         if (!$this->users->contains($user)) {
             $this->users->add($user);
         }
@@ -76,6 +76,7 @@ class Role
     public function removeUser(User $user): static
     {
         $this->users->removeElement($user);
+        $user->removeRole($this); //met à jour côté inverse
 
         return $this;
     }
