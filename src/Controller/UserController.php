@@ -24,26 +24,29 @@ final class UserController extends AbstractController
             'users' => $userRepository->findAll(),
         ]);
     }
-
+// Attribution de route pour la création d'un utilisateur
+// on crée un nouvel utilisateur en lui attribuant le role_user
+// On utilise le repository pour récupérer le rôle "ROLE_USER" depuis la base de données
     #[Route('/new', name: 'app_user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, RoleRepository $roleRepository): Response
     {
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // On récupère le rôle "ROLE_USER" depuis la base
-            $roleUser = $roleRepository->findOneBy(['nameRole' => 'ROLE_USER']);
-
-            $user->addRole($roleUser);
+           
+            //   Persister l'utilisateur dans la base de données
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/new.html.twig', [
             'user' => $user,
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
