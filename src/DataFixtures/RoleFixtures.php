@@ -182,7 +182,7 @@ class RoleFixtures extends Fixture implements DependentFixtureInterface
 
            // Ajout de références pour réutiliser ces rôles dans d'autres fixtures (ex : UserFixtures)
            $this->addReference('role_ADMIN', $roleAdmin);
-           $this->addReference('role_EDITOR', $roleStandardUser);
-           $this->addReference('role_VIEWER', $roleCreator);
+           $this->addReference('role_USER', $roleStandardUser);
+           $this->addReference('role_CREA', $roleCreator);
     }
 }
