@@ -1,10 +1,11 @@
 nelmio_cors:
     defaults:
-        allow_origin: ['*'] # à restreindre en production !
-        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'DELETE']
+        origin_regex: true
+        allow_origin: ['^http?://(localhost|127\.0\.0\.1)(:[0-9]+)?$']
+        allow_methods: ['GET', 'OPTIONS', 'POST', 'PUT', 'PATCH', 'DELETE']
         allow_headers: ['Content-Type', 'Authorization']
-        expose_headers: []
+        expose_headers: ['Link']
         max_age: 3600
-        allow_credentials: false
     paths:
-        '^/proxy-googleads': ~
+        '^/': null
+

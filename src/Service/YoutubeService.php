@@ -68,7 +68,7 @@ class YoutubeService
         try {
             $response = $this->youtube->videos->listVideos('snippet,contentDetails', [
                 'id' => $videoId,
-                'fields' => 'items(id,snippet/title,snippet/description,snippet/thumbnails/default,snippet/thumbnails/medium,snippet/thumbnails/high,snippet/publishedAt,contentDetails/duration)',
+                'fields' => 'items(id,snippet/title,snippet/thumbnails/default,snippet/thumbnails/medium,snippet/thumbnails/high,snippet/publishedAt,contentDetails/duration)',
                 'maxResults' => 1,
             ]);
 

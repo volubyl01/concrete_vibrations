@@ -7,10 +7,10 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {% for instrument in instruments %}
-            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col">
+            <div class="bg-white rounded-lg shadow-md overflow-hidden flex flex-col items-center">
 
                 {% if instrument.pictureUrl %}
-                    <img src="{{ instrument.pictureUrl }}" alt="{{ instrument.nameInstr }}" class="w-full h-48 object-cover">
+                     <img src="{{ instrument.pictureUrl }}" alt="{{ instrument.nameInstr }}" class="w-80 h-80 object-cover">
                 {% endif %}
                 <div class="p-4 flex flex-col flex-grow">
                     <h2 class="text-xl font-semibold mb-1">{{ instrument.nameInstr }}</h2>

@@ -63,7 +63,7 @@ instrumentVignettes.forEach(function(vignette) {
 //     }
 //   })
 //   .catch(error => console.error('Erreur fetch:', error));
-fetch('/proxy-googleads')
+fetch('http://localhost:8000/proxy-googleads')
   .then(response => response.json())
   .then(data => {
     console.log('Données JSON:', data);
