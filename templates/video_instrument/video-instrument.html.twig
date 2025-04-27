@@ -1,66 +1,67 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Associer une vidéo à un instrument{% endblock %}
-
+{% block title %}Associer une vidéo à un instrument
+{% endblock %}
 {% block content %}
-<div class="container mt-5">
-    <h1>Associer une vidéo à un instrument</h1>
-
-    {# Affichage des messages de succès #}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-
-    {{ form_start(form) }}
-{# Possible car classe hidden dans le controlleur du formulaire #}
-        <div class="mb-4">
-            <label><strong>Choisissez une vidéo :</strong></label>
-            <div class="row" id="video-gallery">
+    <div class="container mx-auto px-4 mt-8">
+        <h1 class="text-2xl font-bold mb-6">Associer une vidéo à un instrument</h1>
+        {# Affichage des messages de succès #}
+        {% for message in app.flashes('success') %}
+            <div class="mb-4 p-4 rounded-lg bg-green-100 border border-green-400 text-green-700">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {# Affichage des messages d'erreur #}
+        {% for message in app.flashes('error') %}
+            <div class="mb-4 p-4 rounded-lg bg-red-100 border border-red-400 text-red-700">
+                {{ message }}
+            </div>
+        {% endfor %}
+        {# Formulaire d'association vidéo-instrument #}
+        {{ form_start(form) }}
+        <div class="mb-6">
+            <label class="block font-bold mb-2">
+                Choisissez une vidéo :
+            </label>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="video-gallery">
                 {% for video in selectedVideos %}
-                    <div class="col-6 col-md-3 text-center mb-3">
-                        <img 
-                            src="{{ asset(video.thumbnailUrl) }}" 
-                            alt="{{ video.title }}" 
-                            class="img-fluid rounded shadow-sm mb-2 video-vignette"
-                            data-video-id="{{ video.id }}"
-                            style="max-height: 80px; cursor:pointer;"
-                        >
-                        <div>{{ video.title }}</div>
-                    </div>
+                    {# on affiche uniquement les videos qui ne sont pas associées à un instrumet #}
+                    {% if video.instrument is empty %}
+                        <div class="text-center">
+                            <div class="mb-1">{{ video.title }}</div>
+                            <img src="{{ asset(video.thumbnailUrl) }}" alt="{{ video.title }}" 
+                                class="w-full h-20 object-cover rounded shadow-sm mb-2 cursor-pointer video-vignette" 
+                                data-video-id="{{ video.id }}">
+                        </div>
+                    {% endif %}
                 {% else %}
-                    <div class="col-12 text-center text-muted">Aucune vidéo sélectionnée.</div>
+                    <div class="col-span-full text-center text-gray-500">Aucune vidéo sélectionnée.</div>
                 {% endfor %}
             </div>
             {{ form_widget(form.selectedvideo, {'attr': {'type': 'hidden'}}) }}
             {{ form_errors(form.selectedvideo) }}
         </div>
-
-        <div class="mb-4">
-    <label><strong>Choisissez un instrument :</strong></label>
-    <div class="row" id="instrument-gallery">
-        {% for instrument in instruments %}
-            <div class="col-6 col-md-3 text-center mb-3">
-                <img 
-                    src="{{ asset(instrument.pictureUrl) }}" 
-                    alt="{{ instrument.nameInstr }}" 
-                    class="img-fluid rounded shadow-sm mb-2 instrument-vignette"
-                    data-instrument-id="{{ instrument.id }}"
-                    style="max-height: 80px; cursor:pointer;"
-                >
-                <div>{{ instrument.nameInstr }}</div>
+        <div class="mb-6">
+            <label class="block font-bold mb-2">
+                Choisissez un instrument :
+            </label>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4" id="instrument-gallery">
+                {% for instrument in instruments %}
+                    <div class="text-center">
+                        <div class="text-red-500 mb-1">{{ instrument.nameInstr }}</div>
+                        <img src="{{ asset(instrument.pictureUrl) }}" alt="{{ instrument.nameInstr }}" 
+                            class="w-full h-20 object-cover rounded shadow-sm mb-2 cursor-pointer instrument-vignette" 
+                            data-instrument-id="{{ instrument.id }}">
+                    </div>
+                {% else %}
+                    <div class="col-span-full text-center text-gray-500">Aucun instrument disponible.</div>
+                {% endfor %}
             </div>
-        {% else %}
-            <div class="col-12 text-center text-muted">Aucun instrument disponible.</div>
-        {% endfor %}
+            {{ form_widget(form.instrument, {'attr': {'type': 'hidden'}}) }}
+            {{ form_errors(form.instrument) }}
+        </div>
+        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+            Associer
+        </button>
+        {{ form_end(form) }}
     </div>
-    {{ form_widget(form.instrument, {'attr': {'type': 'hidden'}}) }}
-    {{ form_errors(form.instrument) }}
-</div>
-
-        <button type="submit" class="btn btn-primary">Associer</button>
-    {{ form_end(form) }}
-</div>
-
 {% endblock %}

@@ -24,7 +24,6 @@ class Role
      * @var Collection<int, User>
      */
     #[ORM\ManyToMany(targetEntity: User::class, mappedBy: 'roles')]
-    // un role peut être attribué à plusieurs utilis : $users
     private Collection $users;
 
     /**

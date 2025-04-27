@@ -291,27 +291,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @see UserInterface
      */
     // pour la sécurité 
-    public function getRoles(): array
+    public function getRoles(): Array
     {
         // On récupère les noms des rôles associés à l'utilisateur
-        $roles = $this->roles->map(fn(Role $role) => $role->getNameRole())->toArray();
+        // $roles = $this->roles->map(fn(Role $role) => $role->getNameRole())->toArray();
 
-        // Si aucun rôle n'est défini, on ajoute ROLE_USER par défaut
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
+        // // Si aucun rôle n'est défini, on ajoute ROLE_USER par défaut
+        // if (empty($roles)) {
+        //     $roles[] = 'ROLE_USER';
+        // }
+
+        $roles = [];
+
+        foreach ($this->roles as $role) {
+            $roles[] = $role->getNameRole();
         }
+
+        // garantir au moins ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     
-        return $roles;
     }
 
-    /**
-     * @return Collection<int, Role>
-     */
-    // pour le formulaire : retourne la collection d'objets Role
-    public function getRolesCollection(): Collection
-    {
-        return $this->roles;
-    }
+   /**
+ * @return Collection|Role[]
+ */
+public function getRolesCollection(): Collection
+{
+    return $this->roles; // propriété ManyToMany vers Role
+}
+
+   
     
     public function setRolesCollection($roles)
     {
@@ -322,7 +333,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function addRole(Role $role): self
     {
         if (!$this->roles->contains($role)) {
-            $this->roles->add($role);
+            $this->roles[] = $role;
         }
 
         return $this;

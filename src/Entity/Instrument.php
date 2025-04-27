@@ -93,6 +93,7 @@ class Instrument
      */
     #[ORM\OneToMany(targetEntity: SelectedVideo::class, mappedBy: 'instrument')]
     private Collection $selectedVideos;
+    // Instrument est le côté inverse (OneToMany), qui contient une collection de SelectedVideo
 
     public function __construct()
     {
@@ -391,7 +392,7 @@ class Instrument
     {
         if (!$this->selectedVideos->contains($selectedVideo)) {
             $this->selectedVideos->add($selectedVideo);
-            $selectedVideo->setInstrument($this);
+            $selectedVideo->setInstrument($this); // met à jour le coté propriétaire
         }
 
         return $this;

@@ -32,9 +32,11 @@ class SelectedVideo
     #[ORM\JoinColumn(nullable: true)]
     private ?User $user = null;
 
+
     #[ORM\ManyToOne(targetEntity: Instrument::class, inversedBy: 'selectedVideos')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(name: 'instrument_id', referencedColumnName: 'id', nullable: true)]
     private ?Instrument $instrument = null;
+    //SelectedVideo est le côté propriétaire (ManyToOne), c’est lui qui possède la clé étrangère instrument_id en base.
 
     public function getId(): ?int
     {
