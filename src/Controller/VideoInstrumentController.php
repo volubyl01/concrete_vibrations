@@ -2,24 +2,31 @@
 
 namespace App\Controller;
 
-use App\Entity\SelectedVideo;
-use App\Entity\Instrument;
 use App\Entity\Role;
-use App\Entity\User; // Import de l'entité User
+use App\Entity\Instrument;
+use App\Entity\SelectedVideo;
 use App\Form\VideoInstrumentType;
 use App\Repository\InstrumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use App\Entity\User; // Import de l'entité User
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class VideoInstrumentController extends AbstractController
 {
     #[Route('/associer-video-instrument', name: 'associer_video_instrument')]
-    public function associer(Request $request, InstrumentRepository $instrumentRepository, EntityManagerInterface $em): Response
+    public function associer(Security $security, Request $request, InstrumentRepository $instrumentRepository, EntityManagerInterface $em): Response
     {
-        $user = $this->getUser();
+        // $user = $this->getUser();
+
+        $user = $security->getUser();
+
+        if (!$user) {
+            throw $this->createAccessDeniedException('Vous devez être connecté.');
+        }
 
         $form = $this->createForm(VideoInstrumentType::class, null, [
             'user' => $this->getUser(),
