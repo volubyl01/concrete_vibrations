@@ -19,31 +19,39 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
 });
 // Sélection des videoss par vignettes
-document.addEventListener("DOMContentLoaded", function () {
-	const vignettes = document.querySelectorAll(".video-vignette");
-	const input = document.getElementById("{{ form.selectedvideo.vars.id }}");
+document.addEventListener('DOMContentLoaded', () => {
+    // Sélection des vidéos
+    document.querySelectorAll('.video-vignette').forEach(img => {
+        img.addEventListener('click', () => {
+            // Retirer la sélection précédente
+            document.querySelectorAll('.video-vignette.selected').forEach(el => el.classList.remove('selected'));
+            // Ajouter la sélection actuelle
+            img.classList.add('selected');
+            // Mettre à jour le champ caché selectedvideo
+            const inputSelectedVideo = document.querySelector('input[name="video_instrument[selectedvideo]"]');
+            if (inputSelectedVideo) {
+                inputSelectedVideo.value = img.dataset.videoId;
+            }
+        });
+    });
 
-	vignettes.forEach(function (vignette) {
-		vignette.addEventListener("click", function () {
-			vignettes.forEach((v) =>
-				v.classList.remove("border-primary", "border", "shadow")
-			);
-			this.classList.add("border-primary", "border", "shadow");
-			input.value = this.dataset.videoId;
-		});
-	});
+
+// Sélection instrument
+document.querySelectorAll('.instrument-vignette').forEach(img => {
+    img.addEventListener('click', () => {
+        // Retirer la sélection précédente
+        document.querySelectorAll('.instrument-vignette.selected').forEach(el => el.classList.remove('selected'));
+        // Ajouter la sélection actuelle
+        img.classList.add('selected');
+        // Mettre à jour le champ caché instrument
+        const inputInstrument = document.querySelector('input[name="video_instrument[instrument]"]');
+        if (inputInstrument) {
+            inputInstrument.value = img.dataset.instrumentId;
+        }
+    });
+});
 });
 
-// Pour la sélection de l'instrument
-const instrumentVignettes = document.querySelectorAll('.instrument-vignette');
-const instrumentInput = document.getElementById('{{ form.instrument.vars.id }}');
-instrumentVignettes.forEach(function(vignette) {
-	vignette.addEventListener('click', function() {
-		instrumentVignettes.forEach(v => v.classList.remove('border-primary', 'border', 'shadow'));
-		this.classList.add('border-primary', 'border', 'shadow');
-		instrumentInput.value = this.dataset.instrumentId;
-	});
-});
 // proxy
 // fetch('/proxy-googleads')
 //   .then(response => response.text())
@@ -63,11 +71,19 @@ instrumentVignettes.forEach(function(vignette) {
 //     }
 //   })
 //   .catch(error => console.error('Erreur fetch:', error));
+
+
 fetch('http://localhost:8000/proxy-googleads')
-  .then(response => response.json())
-  .then(data => {
-    console.log('Données JSON:', data);
-  })
-  .catch(error => console.error('Erreur:', error));
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Données JSON:', data);
+    })
+    .catch(error => console.error('Erreur:', error));
+
 
 
