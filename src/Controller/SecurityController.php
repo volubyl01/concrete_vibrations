@@ -17,6 +17,7 @@ class SecurityController extends AbstractController
 if ($this->getUser()) {
     return $this->redirectToRoute('home_connected');
 }
+
         // Récupère l'erreur de connexion s'il y en a une
         $error = $authenticationUtils->getLastAuthenticationError();
 

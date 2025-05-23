@@ -20,14 +20,13 @@ class VideoInstrumentController extends AbstractController
     #[Route('/associer-video-instrument', name: 'associer_video_instrument')]
     public function associer(Security $security, Request $request, InstrumentRepository $instrumentRepository, EntityManagerInterface $em): Response
     {
-        // $user = $this->getUser();
 
         $user = $security->getUser();
 
         if (!$user) {
             throw $this->createAccessDeniedException('Vous devez être connecté.');
         }
-
+ 
         $form = $this->createForm(VideoInstrumentType::class, null, [
             'user' => $this->getUser(),
         ]);
@@ -69,11 +68,6 @@ class VideoInstrumentController extends AbstractController
             $instrument = $em->getRepository(Instrument::class)->find($instrumentId);
             dump($selectedVideo, $instrument); // Affiche les entités récupérées (ou null si non trouvées)
 
-
-            // if (!$selectedVideoId || !$instrumentId) {
-            //     $this->addFlash('error', 'Veuillez sélectionner une vidéo et un instrument.');
-            //     return $this->redirectToRoute('associer_video_instrument');
-            // }
 
             if (!$selectedVideoId) {
                 $this->addFlash('error', 'Veuillez sélectionner une vidéo.');
